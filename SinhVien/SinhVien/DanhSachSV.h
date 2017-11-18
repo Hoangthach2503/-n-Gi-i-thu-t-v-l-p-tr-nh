@@ -13,10 +13,12 @@ public:
 	~DanhSachSV();
 	void nhapDs();
 	void insertFirst();
+	void insertLast( int maSV, string hoSV, string tenSV, Time ngaySinh,
+		int gioiTinh, Lop lopHoc, float diemToan, float diemLy, float diemTin);
 	void insertLast();
 	void xuatDS();
 	void timKiemten();
-	void Sort();
+	void sapXep();
 	void insertSort();
 	void xoa();
 	void thongke();

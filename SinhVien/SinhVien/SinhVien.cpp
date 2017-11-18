@@ -278,10 +278,10 @@ void SinhVien::nhap() {
 	if ((diemTin < 0) || (diemTin > 10)) {
 		throw"Ban nhap diem khong dung";
 	}
-	char c ;
-	cout <<"\nBan co muon luu vao file khong(y/n):  " ;
-	cin >> c;
-	if (c == 'y') {
+	//char c ;
+	//cout <<"\nBan co muon luu vao file khong(y/n):  " ;
+	//cin >> c;
+	//if (c == 'y') {
 		outfile.open("QuanLySV.txt", ios::app);
 		setSinhVien(mssv, ho, ten, ns, gioiTinh, lophoc, diemToan, diemLy, diemTin);
 		outfile << mssv <<" ";
@@ -296,7 +296,8 @@ void SinhVien::nhap() {
 		outfile << diemToan << " ";
 		outfile << diemLy << " ";
 		outfile << diemTin <<"\n";
-	}
-	outfile.close();
+		outfile.close();
+
+	//}
 
 }

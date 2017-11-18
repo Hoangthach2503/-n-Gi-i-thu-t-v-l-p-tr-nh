@@ -44,15 +44,16 @@ void DanhSachSV::insertFirst() {
 
 void DanhSachSV::nhapDs() {
 
-	/*ifstream intfile;
-	intfile.open("QuanlySV.txt");
-	ofstream outtfile;
-	outtfile.open("QuanlySV.txt");
-	intfile >> dem;*/
 	int n;
 	cout << "Nhap so sinh vien:  ";
 	cin >> n;
-	//temp = dem;
+	if (n < 1)
+	{
+		do {
+			cout << "Ban nhap so sinh vien khong chinh xac, moi ban nhap lai:  ";
+			cin >> n;
+		} while (n < 1);
+	}
 	dem += n;
 	int i = 0;
 	do
@@ -77,7 +78,6 @@ void DanhSachSV::nhapDs() {
 	
 }
 void DanhSachSV::docFile() {
-	SV p = F;
 	ifstream infile;
 	infile.open("QuanlySV.txt", ios::in);
 	if (infile.fail())
@@ -86,9 +86,8 @@ void DanhSachSV::docFile() {
 		return ;
 	}
 	else {
-		int line_number = 1;
-		char temp[255];
-		string line;
+		delete F;
+		int line_number = 1;	
 		int mssv;
 		string ho;
 		string tendem;
@@ -103,38 +102,47 @@ void DanhSachSV::docFile() {
 		float diemToan;
 		float diemLy;
 		float diemTin;
-		while (!infile.eof()) {
-			infile >> mssv;
-			std::cout << mssv << " ";
-			infile >> ho;
-			std::cout << ho << " ";
-			infile >> tendem;
-			std::cout << tendem << " ";
-			infile >> ten;
-			std::cout << ten << " ";
-			infile >> ngay;
-			std::cout << ngay << " ";
-			infile >> thang;
-			std::cout << thang << " ";
-			infile >> nam;
-			std::cout << nam << " ";
-			infile >> gioiTinh;
-			std::cout << gioiTinh << " ";
-			infile >> khoa;
-			std::cout << khoa << " ";
-			infile >> tenLop;
-			std::cout << tenLop << " ";
-			infile >> diemToan;
-			std::cout << diemToan << " ";
-			infile >> diemLy;
-			std::cout << diemLy << " ";
-			infile >> diemTin;
-			std::cout << diemTin << endl;
-			if (infile.eof()) {
-				infile.close();
-			}
-		} 
+		std::string line;
+		while (true) {
 			
+			infile >> mssv;
+			if (infile.eof())
+				break;
+			//std::cout << mssv << " ";
+			infile >> ho;
+			//std::cout << ho << " ";
+			infile >> tendem;
+			//std::cout << tendem << " ";
+		infile >> ten;
+			//std::cout << ten << " ";
+			infile >> ngay;
+			//std::cout << ngay << " ";
+			infile >> thang;
+			//std::cout << thang << " ";
+			infile >> nam;
+			//std::cout << nam << " ";
+			infile >> gioiTinh;
+			//std::cout << gioiTinh << " ";
+			infile >> khoa;
+			//std::cout << khoa << " ";
+			infile >> tenLop;
+			//std::cout << tenLop << " ";
+			infile >> diemToan;
+			//std::cout << diemToan << " ";
+			infile >> diemLy;
+			//std::cout << diemLy << " ";
+			infile >> diemTin;
+			//std::cout << diemTin << endl;
+			Time ngaySinh;
+			ngaySinh.thang = thang;
+			ngaySinh.nam = nam;
+			ngaySinh.ngay = ngay;
+			Lop lopHoc;
+			lopHoc.khoa = khoa;
+			lopHoc.tenlop = tenLop;
+			insertLast(mssv, ho + tendem, ten, ngaySinh, gioiTinh, lopHoc, diemToan, diemLy, diemTin);
+		}
+		xuatDS();
 	}
 
 }
@@ -211,7 +219,7 @@ void hoanVi(SinhVien *sv1, SinhVien *sv2) {
 	sv2->setGioiTinh(t.getGioiTinh());   sv2->setHoSV(t.getHoSV());                sv2->setLopHoc(t.getLopHoc());
 	sv2->setMaSV(t.getMaSV());         sv2->setNgaySinh(t.getNgaySinh());        sv2->setTenSV(t.getTenSV());
 }
-void DanhSachSV::Sort() {
+void DanhSachSV::sapXep() {
 	for (SV i = F; i !=NULL; i=i->getNext())
 		for (SV j = i->getNext(); j != NULL; j=j->getNext())
 		{
@@ -222,6 +230,8 @@ void DanhSachSV::Sort() {
 			}
 
 		}
+	xuatDS();
+	docFile();
 }
 void DanhSachSV::insertLast()
 {
@@ -229,10 +239,12 @@ void DanhSachSV::insertLast()
 	p = new SinhVien(); //
 	(*p).nhap();
 	if (kiemTraMSSV(p->getMaSV(), F)) {
+		delete p;
 		cout << "\nMa so sinh vien da co! Moi ban nhap lai!\n";
 		do {
 			p->nhap();
-			if (kiemTraMSSV(p->getMaSV(), F)) {
+			if (kiemTraMSSV(p->getMaSV(), F)){
+				delete p;
 				cout << "\nMa so sinh vien da co! Moi ban nhap lai!\n";
 			}
 			else
@@ -241,42 +253,53 @@ void DanhSachSV::insertLast()
 			}
 		} while (kiemTraMSSV(p->getMaSV(), F) == 0);
 	}
+	else {
+		(*p).setNext(NULL);
+		if (F == NULL) {
+			F = p;
+			dem++;
+		}
+
+		else {
+			(*S).setNext(p);
+			dem++;
+		}
+
+		S = p;
+	}
+}
+void DanhSachSV::insertLast(int maSV, string hoSV, string tenSV, Time ngaySinh,
+	int gioiTinh, Lop lopHoc, float diemToan, float diemLy, float diemTin)
+{
+	SV p;
+	p = new SinhVien();
+	(*p).setSinhVien( maSV, hoSV, tenSV, ngaySinh, gioiTinh, lopHoc,  diemToan,  diemLy,  diemTin);
 	(*p).setNext(NULL);
 	if (F == NULL) {
 		F = p;
 		dem++;
 	}
-		
-	else{
+
+	else {
 		(*S).setNext(p);
 		dem++;
 	}
-		
+
 	S = p;
-	
+
 }
 void DanhSachSV::insertSort() {
 	cout << "Nhap thong tin sinh vien can chen:  \n";
 	insertLast();
-	this->Sort();
+	this->sapXep();
 }
 
 void DanhSachSV::xoa() {
 	SV p, q;
-	//string ho, ten;
-//	cout << "nhap ho can xoa:   ";
-	//fflush(stdin);
-	//cin.ignore();
-	//getline(cin, ho);
-	//cout << "nhap ten can xoa:   ";
-	/*fflush(stdin);
-	cin.ignore();*/
-	//getline(cin, ten);
 	int mssv;
 	cout << "nhap ma sinh vien can xoa:  ";
 	cin >> mssv;
 	cin.ignore();
-	//fflush(stdin);
 	if (F == NULL)
 	{
 		cout << "\n\nDanh sach rong !\n"<<endl;
@@ -298,7 +321,6 @@ void DanhSachSV::xoa() {
 			}
 			else {
 				if (F->getMaSV() == mssv)
-					//if ((F->getHoSV() == ho) && (F->getTenSV() == ten))
 				{
 					p = F;
 					F = F->getNext();
@@ -310,7 +332,6 @@ void DanhSachSV::xoa() {
 				{
 					q = F;
 					p = (*F).getNext();
-					//while ((p->getHoSV().compare(ho) == 0) && (p->getTenSV().compare(ten) == 0))
 					while (p->getMaSV() != mssv)
 					{
 						q = p;

@@ -48,7 +48,6 @@ int main() {
 			break;
 		case 2:
 			ds.xuatDS();
-			//docfile();
 			break;
 		case 3:
 			ds.insertLast();
@@ -60,7 +59,7 @@ int main() {
 			ds.thongke();
 			break;
 		case 6:
-			ds.Sort();
+			ds.sapXep();
 			break;
 		case 7:
 			ds.xoaNu08();
@@ -80,6 +79,5 @@ int main() {
 			break;
 		}
 	} while (n);
-	//system("pause");
 	return 0;
 }
