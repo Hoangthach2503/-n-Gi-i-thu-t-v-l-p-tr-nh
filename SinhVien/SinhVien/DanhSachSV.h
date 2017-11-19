@@ -8,14 +8,13 @@ class DanhSachSV
 	SV F, S;
 	int dem;
 public:
-
+	
 	DanhSachSV();
 	~DanhSachSV();
 	void nhapDs();
-	void insertFirst();
 	void insertLast( int maSV, string hoSV, string tenSV, Time ngaySinh,
 		int gioiTinh, Lop lopHoc, float diemToan, float diemLy, float diemTin);
-	void insertLast();
+	void nhap();
 	void xuatDS();
 	void timKiemten();
 	void sapXep();

@@ -15,6 +15,7 @@ void docfile() {
 int main() {
 	DanhSachSV ds;
 	int n;
+	char c;
 	do
 	{
 		cout << "\n1. Nhap danh sach sinh vien";
@@ -50,7 +51,7 @@ int main() {
 			ds.xuatDS();
 			break;
 		case 3:
-			ds.insertLast();
+			ds.nhap();
 			break;
 		case 4:
 			ds.xoa();
@@ -62,6 +63,10 @@ int main() {
 			ds.sapXep();
 			break;
 		case 7:
+			
+			cout << "\nBan chac chan muon xoa khong(c/k)?  ";
+			cin >> c;
+			if(c=='c')
 			ds.xoaNu08();
 			break;
 		case 8:

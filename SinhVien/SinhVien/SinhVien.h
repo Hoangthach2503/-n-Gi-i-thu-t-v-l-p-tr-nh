@@ -32,8 +32,6 @@ class SinhVien
 	float diemTin;	
 	SV next;
 public:
-	ofstream outfile;
-public:
 
 	SinhVien();
 	SinhVien(int maSV, string hoSV, string tenSV, Time ngaySinh, int gioiTinh,
@@ -44,7 +42,6 @@ public:
 		int gioiTinh, Lop lopHoc, float diemToan, float diemLy, float diemTin, SV next);
 	void setSinhVien(int maSV, string hoSV, string tenSV, Time ngaySinh,
 		int gioiTinh, Lop lopHoc, float diemToan, float diemLy, float diemTin);
-	void nextBang(SV sv1, SV sv2);
 	float diemTrungBinh();
 	int hocBong();
 	 string toString();
@@ -68,7 +65,6 @@ public:
 	float getDiemTin();
 	void setNext(SV next);
 	SV getNext();
-	void nhap();
 };
 #endif
 
